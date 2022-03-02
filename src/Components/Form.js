@@ -1,16 +1,68 @@
-import React from 'react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import * as yup from "yup";
+import axios from "axios";
+import schema from '../validation/schema';
 
 const Form = (props) => {
 
-    const handleChange = evt => {
-        const { name, value } = evt.target;
-        props.change(name, value);
-      }
+    const [formValues, setFormValues] = useState({
+        name: "",
+        size: "",
+        pepperonis: false,
+        ham: false,
+        onions: false,
+        jalapenos: false,
+        instructions: "",
+      });
 
-    const handleSubmit = evt => {
-        evt.preventDefualt();
-        props.submit();
-    }
+      const [formErrors, setFormErrors] = useState({
+        name: "",
+        size: "",
+        pepperonis: "",
+        ham: "",
+        onions: "",
+        jalapenos: "",
+        instructions: "",
+      });
+
+      const validate = (e) => {
+        yup
+          .reach(schema, e.target.name)
+          .validate(e.target.value)
+          .then((valid) => {
+            setFormErrors({
+              ...formErrors,
+              [e.target.name]: "",
+            });
+          })
+          .catch((err) => {
+            console.log(err.errors);
+            setFormErrors({
+              ...formErrors,
+              [e.target.name]: err.errors[0],
+            });
+          });
+      };
+
+      const handleChange = (e) => {
+        e.persist();
+        validate(e);
+        let value =
+          e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setFormValues({ ...formValues, [e.target.name]: value });
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Form Submitted!");
+        axios
+          .post("https://reqres.in/api/pizzas", formValues)
+          .then((response) => {
+            props.addPizza(response.data);
+          })
+          .catch((err) => console.log(err));
+      };
 
     return (
        
@@ -25,11 +77,11 @@ const Form = (props) => {
                 palceholder='Enter your first name'
                 name='name'
                 id="name-input"
-                value={props.values.name}
+                value={formValues.name}
                 onChange={handleChange}
             />
-
-            <label for="size">Choice of Size</label>
+            {/* <p>{props.errors.name}</p> */}
+            <label for="size">Choice of Size </label>
             <select id="size-dropdown" name="size" onChange={handleChange}>
                 <option value="Small">Small</option>
                 <option value="Medium">Medium</option>
@@ -37,42 +89,47 @@ const Form = (props) => {
                 <option value="XL">XL</option>
             </select>
 
-            <label for="Toppings">Add Toppings</label>
+            <label for="Toppings">Add Toppings: </label>
 
-            <label for="Toppings">Pepperoni</label>
+            <label for="pepperonis">Pepperonis</label>
             <input 
                 type='checkbox'
-                name="Toppings"
-                id='Pepperoni'
-                checked
+                name="pepperonis"
+                id='pepperonis'
+                checked={formValues.pepperonis}
+                onChange={handleChange}
             />
-            <label for="Toppings">Ham</label>
+            <label for="ham">Ham</label>
             <input 
                 type='checkbox'
-                name="Toppings"
-                id='Ham'
-                checked
+                name="ham"
+                id='ham'
+                checked={formValues.ham}
+                onChange={handleChange}
             />
-            <label for="Toppings">Onion</label>
+            <label for="onions">Onions</label>
             <input 
                 type='checkbox'
-                name="Toppings"
-                id='Onion'
-                checked
+                name="onions"
+                id='onions'
+                checked={formValues.onions}
+                onChange={handleChange}
             />
-            <label for="Toppings">Jalepeno</label>
+            <label for="jalapenos">Jalepenos</label>
             <input 
                 type='checkbox'
-                name="Toppings"
-                id='Jalepeno'
-                checked
+                name="jalapenos"
+                id='jalapenos'
+                checked={formValues.jalapenos}
+                onChange={handleChange}
             />
-            <label for="Instruction">Special Instructions</label>
+            <label for="instructions">Special Instructions: </label>
             <input
                 placeholder="Anything else you'd like to add?"
-                value={props.values.specialText}
-                name="Instruction"
+                value={formValues.instructions}
+                name="instructions"
                 id="special-text"
+                onChange={handleChange}
             />
 
             <input  

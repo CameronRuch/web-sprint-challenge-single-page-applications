@@ -14,13 +14,15 @@ const Home = () => {
 
         <header>
             <h1>chubby's pizza</h1>
-            <Link to="/">Home</Link>
+            <Link to="/">
+            <button>Home</button>
+            </Link>
             <button>Help</button>
     
             <div>
                 <img src={Pizza} />
                 <Link to="/pizza "id="order-pizza">
-                    Pizza
+                   <button>Order Pizza!</button> 
                 </Link>
             </div>
         </header>
