@@ -1,27 +1,27 @@
 import React from 'react';
-import Pizza from '../Images/Pizza.jpg'
-import { useHistory } from 'react-router-dom';
+import Pizza from '../Images/Pizza.jpg';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 
-    const history = useHistory();
-    const routeChange = () => {
-        const path = '/pizza'
-        history.push(path);
-    }
+    // const RouteChange = () => {
+    //     const history = useNavigate();
+    //     const path = '/pizza'
+    //     history.push(path);
+    // }
 
     return (
 
         <header>
             <h1>chubby's pizza</h1>
-            <button>Home</button>
+            <Link to="/">Home</Link>
             <button>Help</button>
     
             <div>
                 <img src={Pizza} />
-                <button id="order-pizza" onClick={routeChange}>
+                <Link to="/pizza "id="order-pizza">
                     Pizza
-                </button>
+                </Link>
             </div>
         </header>
 

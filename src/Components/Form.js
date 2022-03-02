@@ -1,12 +1,18 @@
 import React from 'react';
 
 
+
 const Form = (props) => {
 
-    const onSubmit = (e) => {
-        e.preventDefualt();
-        // submit();
+    const handleSubmit = evt => {
+        evt.preventDefualt();
+        props.submit();
     }
+
+    const handleChange = evt => {
+        const { name, value } = evt.target;
+        props.change(name, value);
+      }
 
     return (
        
@@ -14,15 +20,16 @@ const Form = (props) => {
         <div>
             <input 
                 type='text'
-                value='Enter your first name'
+                palceholder='Enter your first name'
                 name='name'
-                id='name'
+                id="name-input"
+                onChange={handleChange}
             />
             <h2>Build Your Own Pizza</h2>
-            <form id='pizza-form' onSubmit={onSubmit}>
+            <form id='pizza-form' onSubmit={handleSubmit}>
 
             <label for="size">Choice of Size</label>
-            <select id="size" name="size">
+            <select id="size-dropdown" name="size" onChange={handleChange}>
                 <option value="Small">Small</option>
                 <option value="Medium">Medium</option>
                 <option value="Large">Large</option>
