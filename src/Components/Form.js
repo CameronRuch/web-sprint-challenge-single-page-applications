@@ -1,32 +1,33 @@
 import React from 'react';
 
-
-
 const Form = (props) => {
-
-    const handleSubmit = evt => {
-        evt.preventDefualt();
-        props.submit();
-    }
 
     const handleChange = evt => {
         const { name, value } = evt.target;
         props.change(name, value);
       }
 
+    const handleSubmit = evt => {
+        evt.preventDefualt();
+        props.submit();
+    }
+
     return (
        
-
+        
         <div>
+            <h2>Build Your Own Pizza</h2>
+
+            <form id='pizza-form' onSubmit={handleSubmit}>
+            
+            <label for="name">Name: </label>
             <input 
-                type='text'
                 palceholder='Enter your first name'
                 name='name'
                 id="name-input"
+                value={props.values.name}
                 onChange={handleChange}
             />
-            <h2>Build Your Own Pizza</h2>
-            <form id='pizza-form' onSubmit={handleSubmit}>
 
             <label for="size">Choice of Size</label>
             <select id="size-dropdown" name="size" onChange={handleChange}>
@@ -35,37 +36,6 @@ const Form = (props) => {
                 <option value="Large">Large</option>
                 <option value="XL">XL</option>
             </select>
-
-
-            <label for="Sauce">Choice of Sauce</label>
-            <label for="Tomato Sauce">Tomato Sauce</label>
-                <input 
-                    type='radio'
-                    name="Sauce"
-                    id="Tomato Sauce"
-                    value="Tomato Sauce"
-                />
-                <label for="Alfredo Sauce">Alfredo Sauce</label>
-                <input 
-                    type='radio'
-                    name="Sauce"
-                    id="Alfredo Sauce"
-                    value="Alfredo Sauce"
-                />
-                <label for="Honey BBQ Sauce">Honey BBQ Sauce</label>
-                 <input 
-                    type='radio'
-                    name="Sauce"
-                    id="Honey BBQ Sauce"
-                    value="Honey BBQ Sauce"
-                />
-                <label for="Marinara Sauce">Marinara Sauce</label>
-                <input 
-                type='radio'
-                name="Sauce"
-                id="Marinara Sauce"
-                value="Marinara Sauce"
-            />
 
             <label for="Toppings">Add Toppings</label>
 
@@ -99,15 +69,14 @@ const Form = (props) => {
             />
             <label for="Instruction">Special Instructions</label>
             <input
-                type='text'
-                value="Anything else you'd like to add?"
+                placeholder="Anything else you'd like to add?"
+                value={props.values.specialText}
                 name="Instruction"
                 id="special-text"
             />
 
             <input  
                 type='submit'
-                name='Add to Order'
                 id='order-button'
                 value="Add to Order"
             />

@@ -9,15 +9,15 @@ import schema from './validation/schema';
 
 
 const initialFormValues = {
-  toppings: false,
+  name: '',
   size: '',
+  toppings: false,
   specialText: "Anything else you'd like to add?",
-  Sauce: false
 
 }
 
 
-const App = (props) => {
+const App = () => {
   
   const [formValues, setFormValues] = useState(initialFormValues);
   const [order, setOrders] = useState([]);
