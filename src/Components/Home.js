@@ -21,8 +21,8 @@ const Home = () => {
     
             <div>
                 <img src={Pizza} />
-                <Link to="/pizza "id="order-pizza">
-                   <button>Order Pizza!</button> 
+                <Link to="/pizza">
+                   <button id="order-pizza">Order Pizza!</button> 
                 </Link>
             </div>
         </header>

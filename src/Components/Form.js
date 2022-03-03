@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
 import schema from '../validation/schema';
@@ -26,24 +25,12 @@ const Form = (props) => {
         instructions: "",
       });
 
-      const validate = (e) => {
-        yup
-          .reach(schema, e.target.name)
-          .validate(e.target.value)
-          .then((valid) => {
-            setFormErrors({
-              ...formErrors,
-              [e.target.name]: "",
-            });
-          })
-          .catch((err) => {
-            console.log(err.errors);
-            setFormErrors({
-              ...formErrors,
-              [e.target.name]: err.errors[0],
-            });
-          });
-      };
+      const validate = ( name, value ) => {
+        yup.reach(schema,name)
+        .validate(value)
+        .then(()=> setFormErrors({ ...formErrors, [name]: ''}))
+        .catch(err => setFormErrors({ ...formErrors, [name]: err.errors[0] }))
+    }
 
       const handleChange = (e) => {
         e.persist();
@@ -57,9 +44,9 @@ const Form = (props) => {
         e.preventDefault();
         console.log("Form Submitted!");
         axios
-          .post("https://reqres.in/api/pizzas", formValues)
-          .then((response) => {
-            props.addPizza(response.data);
+          .post("https://reqres.in/api/orders", formValues)
+          .then((res) => {
+            props.addPizza(res.data);
           })
           .catch((err) => console.log(err));
       };
